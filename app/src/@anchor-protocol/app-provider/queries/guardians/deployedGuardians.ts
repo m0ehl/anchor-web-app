@@ -8,31 +8,34 @@ import { useAnchorWebapp } from '../../contexts/context';
 
 interface TxHistoryReturn {
   history: MypageTxHistory[];
-  isLast: boolean;
-  loadMore: () => void;
-  reload: () => void;
+  // isLast: boolean;
+  // loadMore: () => void;
+  // reload: () => void;
   inProgress: boolean;
+  isConnected: boolean;
 }
 
-export function useMypageTxHistoryQuery(): TxHistoryReturn {
+export function useGuardianQuery(): TxHistoryReturn {
   const connectedWallet = useConnectedWallet();
 
   const { indexerApiEndpoint: endpoint } = useAnchorWebapp();
 
   const [history, setHistory] = useState<MypageTxHistory[]>([]);
 
-  const [next, setNext] = useState<string | null>(null);
-
   const [inProgress, setInProgress] = useState<boolean>(true);
+
+  const [isConnected, setIsConnected] = useState<boolean>(true);
 
   const load = useCallback(() => {
     // initialize data
     setHistory([]);
-    setNext(null);
 
     if (!connectedWallet) {
       setInProgress(false);
+      setIsConnected(false);
       return;
+    } else {
+      setIsConnected(true);
     }
 
     setInProgress(true);
@@ -46,38 +49,36 @@ export function useMypageTxHistoryQuery(): TxHistoryReturn {
       .then(({ history, next }) => {
         setInProgress(false);
         setHistory(history);
-        setNext(next);
       })
       .catch((error) => {
         console.error(error);
         setHistory([]);
-        setNext(null);
         setInProgress(false);
       });
   }, [connectedWallet, endpoint]);
 
-  const loadMore = useCallback(() => {
-    if (history.length > 0 && !!next && connectedWallet) {
-      setInProgress(true);
+  // const loadMore = useCallback(() => {
+  //   if (history.length > 0 && !!next && connectedWallet) {
+  //     setInProgress(true);
 
-      mypageTxHistoryQuery({
-        endpoint,
-        //walletAddress: 'terra1vz0k2glwuhzw3yjau0su5ejk3q9z2zj4ess86s',
-        walletAddress: connectedWallet.walletAddress,
-        offset: next,
-      }).then(({ history, next }) => {
-        setHistory((prev) => {
-          return Array.isArray(history) && history.length > 0
-            ? [...prev, ...history]
-            : prev;
-        });
+  //     mypageTxHistoryQuery({
+  //       endpoint,
+  //       walletAddress: 'terra1vz0k2glwuhzw3yjau0su5ejk3q9z2zj4ess86s',
+  //       //walletAddress: connectedWallet.walletAddress,
+  //       offset: next,
+  //     }).then(({ history, next }) => {
+  //       setHistory((prev) => {
+  //         return Array.isArray(history) && history.length > 0
+  //           ? [...prev, ...history]
+  //           : prev;
+  //       });
 
-        setNext(next);
+  //       setNext(next);
 
-        setInProgress(false);
-      });
-    }
-  }, [connectedWallet, endpoint, history.length, next]);
+  //       setInProgress(false);
+  //     });
+  //   }
+  // }, [connectedWallet, endpoint, history.length, next]);
 
   useEffect(() => {
     load();
@@ -85,9 +86,10 @@ export function useMypageTxHistoryQuery(): TxHistoryReturn {
 
   return {
     history,
-    isLast: !next,
-    reload: load,
-    loadMore,
+    // isLast: !next,
+    // reload: load,
+    // loadMore,
     inProgress,
+    isConnected,
   };
 }

@@ -15,6 +15,7 @@ import { Borrow } from 'pages/borrow';
 import { Dashboard } from 'pages/dashboard';
 import { Earn } from 'pages/earn';
 import { GovernanceMain } from 'pages/gov/main';
+import { Guardians } from 'pages/guardians';
 import { PollCreate } from 'pages/gov/poll.create';
 import { PollCreateModifyANCDistribution } from 'pages/gov/poll.create.modify-anc-distribution';
 import { PollCreateModifyBorrowInterest } from 'pages/gov/poll.create.modify-borrow-interest';
@@ -92,6 +93,10 @@ export function App() {
 
                 {/* Poll */}
                 <Route exact path={`/poll/create`} component={PollCreate} />
+
+                {/* Guardians */}
+                <Route exact path={`/guardians/`} component={Guardians} />
+
                 <Route
                   path={`/poll/create/modify-anc-distribution`}
                   component={PollCreateModifyANCDistribution}

@@ -50,6 +50,7 @@ export * from './queries/market/stableCoin';
 export * from './queries/market/state';
 export * from './queries/market/ust';
 export * from './queries/mypage/txHistory';
+export * from './queries/guardians/deployedGuardians';
 export * from './queries/rewards/ancGovernanceRewards';
 export * from './queries/rewards/anchorLpRewards';
 export * from './queries/rewards/ancUstLpRewards';
