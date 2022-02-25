@@ -83,7 +83,7 @@ export function AvailableGuardiansBase({ className }: AvailableGuardiansProps) {
                 <p>300 LP</p> <p>bLuna/Luna</p>
                 <p> Astroport </p>
               </td>
-              <td>5000 UST</td>
+              <td>5500 UST</td>
               <td>LP Token</td>
               <td>
                 <p>Withdraw LP position from Astroport.</p>
